@@ -72,15 +72,16 @@
             width: 100%;
             height: 100%;
             align-items: center;
-            justify-content: space-between;
-            gap: 4vw;
+            justify-content: center;
+            gap: 3vw;
         }
 
         .split-left {
-            flex: 1.2; /* 讓圖片區域稍大一點 */
+            flex: 2; /* 再次放大左側圖片區，提供更多空間給摩斯密碼表 */
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100%;
         }
 
         .split-right {
@@ -89,6 +90,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            height: 100%;
+            border-left: 2px rgba(62, 42, 28, 0.1) solid; /* 加入淡淡的分隔線增加層次感 */
+            padding-left: 2vw;
         }
 
         h1 {
@@ -100,7 +104,7 @@
             text-shadow: 1px 1px 1px rgba(255,255,255,0.5), -1px -1px 1px rgba(0,0,0,0.2);
         }
 
-        /* 圖片尺寸修正 */
+        /* 圖片尺寸通用設定 */
         .puzzle-image {
             max-width: 90%;
             max-height: 45vh;
@@ -111,27 +115,30 @@
             border-radius: 4px;
         }
 
-        /* 第三關在分欄模式下可以更高 */
+        /* 第三關分欄模式下的大圖設定 (放大 1.5 倍邏輯) */
         .split-left .puzzle-image {
-            max-height: 65vh; 
-            max-width: 100%;
+            max-height: 85vh; /* 提高垂直上限至 85% 螢幕高度 */
+            max-width: 95%;   /* 增加水平寬度 */
+            margin-bottom: 0;
+            border-width: 5px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5vh;
+            gap: 2vh;
             width: 100%;
         }
 
         input[type="text"] {
             font-family: 'Noto Serif TC', serif;
             font-weight: 700;
-            font-size: clamp(1.2rem, 3vh, 2.2rem);
+            font-size: clamp(1.2rem, 3.5vh, 2.5rem);
             padding: 1.2vh 2vw;
             width: 100%;
-            max-width: 350px;
+            max-width: 380px;
             border: 2px solid var(--accent-color);
             border-radius: 8px;
             background: rgba(255,255,255,0.7);
@@ -144,8 +151,8 @@
         button {
             font-family: 'Noto Serif TC', serif;
             font-weight: 700;
-            font-size: clamp(1rem, 2vh, 1.8rem);
-            padding: 1vh 3.5vw;
+            font-size: clamp(1rem, 2.5vh, 1.8rem);
+            padding: 1.2vh 4vw;
             cursor: pointer;
             background-color: var(--accent-color);
             color: #fff;
@@ -158,7 +165,7 @@
 
         button:hover {
             background-color: #5d2e13;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .home-btn {
@@ -175,8 +182,8 @@
         }
 
         .feedback {
-            font-size: clamp(0.9rem, 2vh, 1.5rem);
-            height: 3vh;
+            font-size: clamp(0.9rem, 2.5vh, 1.6rem);
+            height: 3.5vh;
             margin: 0.5vh 0;
             font-weight: 700;
         }
@@ -187,14 +194,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2vw;
+            flex-direction: column; /* 改為垂直排列以便在右欄顯示 */
+            gap: 1.5vh;
             margin-top: 1vh;
         }
 
         .success-text {
             color: var(--success-color);
             font-weight: 900;
-            font-size: clamp(1.2rem, 2.5vh, 2.2rem);
+            font-size: clamp(1.2rem, 3vh, 2.5rem);
         }
 
         .img-fallback {
@@ -203,7 +211,7 @@
             border: 2px dashed var(--text-color);
             padding: 20px;
             width: 100%;
-            height: 40vh;
+            height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -217,8 +225,8 @@
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
         }
     </style>
 </head>
@@ -262,7 +270,7 @@
             </div>
         </div>
 
-        <!-- 第參章 (優化為左右佈局) -->
+        <!-- 第參章 (優化：極大化圖表與左右分欄) -->
         <div id="level-3" class="page">
             <div class="split-layout">
                 <div class="split-left">
@@ -270,9 +278,9 @@
                 </div>
                 <div class="split-right">
                     <h1>第參章</h1>
-                    <div style="margin-bottom: 3vh;">
+                    <div style="margin-bottom: 4vh;">
                         <audio id="morse-audio" src="morse_code.wav"></audio>
-                        <button onclick="toggleAudio()" style="background-color: #5d4037; font-size: 1.1rem; padding: 1.5vh 4vw;">🔊 聆聽音訊</button>
+                        <button onclick="toggleAudio()" style="background-color: #5d4037; font-size: 1.2rem; padding: 1.8vh 4.5vw;">🔊 聆聽密碼音訊</button>
                     </div>
                     <div class="input-group">
                         <input type="text" id="input-3" placeholder="請輸入密碼答案" autocomplete="off">
@@ -348,7 +356,7 @@
                     if (nextArea) nextArea.style.display = "flex";
                 }
             } else {
-                feedback.innerHTML = "再看看線索。";
+                feedback.innerHTML = "線索就在此頁。";
                 feedback.className = "feedback error";
                 input.style.animation = "shake 0.4s";
                 setTimeout(() => input.style.animation = "", 400);
