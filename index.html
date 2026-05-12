@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神祕日記：解謎冒險 - 16:9 優化版</title>
+    <title>神祕日記：解謎冒險 - 16:9 佈局修正版</title>
     <!-- 引入 Google Fonts: 思源宋體 (Noto Serif TC) -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
@@ -46,11 +46,11 @@
                 radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.05) 100%);
             box-shadow: 0 0 60px rgba(0,0,0,0.8);
             position: relative;
-            border: 1.5vh solid var(--border-color);
+            border: 1.2vh solid var(--border-color);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding: clamp(15px, 3vh, 40px);
+            padding: 2vh 4vw;
         }
 
         .page {
@@ -67,47 +67,48 @@
         .active { display: flex; }
 
         h1 {
-            font-size: clamp(2.5rem, 7vh, 6rem);
+            font-size: clamp(2rem, 6vh, 5rem);
             font-weight: 900;
             color: var(--text-color);
-            margin-bottom: clamp(20px, 4vh, 50px);
+            margin-bottom: 2vh; /* 縮減標題下方間距 */
             letter-spacing: 0.2em;
             text-shadow: 1px 1px 1px rgba(255,255,255,0.5), -1px -1px 1px rgba(0,0,0,0.2);
         }
 
-        /* 圖片尺寸限制 */
+        /* 圖片尺寸修正：嚴格限制高度以防擠壓按鈕 */
         .puzzle-image {
-            max-width: 85%;
-            max-height: 50vh; 
+            max-width: 80%;
+            max-height: 42vh; /* 從 50vh 調降，確保下方空間充足 */
             object-fit: contain;
-            margin-bottom: clamp(20px, 4vh, 40px);
-            border: 5px solid var(--text-color);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            margin-bottom: 2vh;
+            border: 4px solid var(--text-color);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
             border-radius: 4px;
         }
 
+        /* 第三關有額外音訊按鈕，圖片高度需更小 */
         #level-3 .puzzle-image {
-            max-height: 40vh;
+            max-height: 35vh; 
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2vh;
+            gap: 1.5vh;
             width: 100%;
         }
 
         input[type="text"] {
             font-family: 'Noto Serif TC', serif;
             font-weight: 700;
-            font-size: clamp(1.4rem, 4.5vh, 3rem);
-            padding: 1.5vh 2vw;
-            width: 50%;
-            min-width: 350px;
-            border: 3px solid var(--accent-color);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.6);
+            font-size: clamp(1.2rem, 3.5vh, 2.5rem);
+            padding: 1vh 2vw;
+            width: 45%;
+            min-width: 320px;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.7);
             text-align: center;
             text-transform: uppercase;
             color: #222;
@@ -117,42 +118,40 @@
         button {
             font-family: 'Noto Serif TC', serif;
             font-weight: 700;
-            font-size: clamp(1.1rem, 2.5vh, 2.2rem);
-            padding: 1.2vh 4vw;
+            font-size: clamp(1rem, 2.2vh, 1.8rem);
+            padding: 1vh 3.5vw;
             cursor: pointer;
             background-color: var(--accent-color);
             color: #fff;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             letter-spacing: 0.1em;
         }
 
         button:hover {
             background-color: #5d2e13;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transform: translateY(-1px);
         }
 
         .home-btn {
             position: absolute;
-            top: 2.5vh;
-            right: 2.5vw;
-            font-size: clamp(0.9rem, 2vh, 1.3rem);
-            padding: 0.6vh 1.8vw;
+            top: 2vh;
+            right: 2vw;
+            font-size: 0.9rem;
+            padding: 0.5vh 1.5vw;
             background: rgba(74, 55, 40, 0.08);
             color: var(--text-color);
             border: 1px solid var(--text-color);
             z-index: 100;
-            opacity: 0.7;
+            opacity: 0.6;
         }
-        .home-btn:hover { opacity: 1; background: rgba(74, 55, 40, 0.15); }
 
         .feedback {
-            font-size: clamp(1.1rem, 2.8vh, 2.2rem);
-            height: 4vh;
-            margin: 1vh 0;
+            font-size: clamp(0.9rem, 2.2vh, 1.6rem);
+            height: 3vh;
+            margin: 0.5vh 0;
             font-weight: 700;
         }
 
@@ -163,22 +162,22 @@
             align-items: center;
             justify-content: center;
             gap: 2vw;
-            margin-top: 2vh;
+            margin-top: 1vh;
         }
 
         .success-text {
             color: var(--success-color);
             font-weight: 900;
-            font-size: clamp(1.5rem, 3.5vh, 2.8rem);
+            font-size: clamp(1.2rem, 2.8vh, 2.2rem);
         }
 
         .img-fallback {
             font-style: italic;
             color: #777;
             border: 2px dashed var(--text-color);
-            padding: 30px;
-            margin-bottom: 30px;
-            font-size: 1.5rem;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
         }
 
         @keyframes fadeIn {
@@ -188,22 +187,19 @@
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
     </style>
 </head>
 <body>
 
     <div class="game-frame">
-        <!-- 全域首頁按鈕 -->
         <button id="global-home-btn" class="home-btn" onclick="showPage('start-page')" style="display:none;">回首頁 (Esc)</button>
 
         <!-- 首頁 -->
         <div id="start-page" class="page active">
-            <h1 style="font-size: clamp(4.5rem, 15vh, 10rem); margin-bottom: 8vh;">神祕日記</h1>
+            <h1 style="font-size: clamp(4rem, 12vh, 9rem); margin-bottom: 5vh;">神祕日記</h1>
             <button id="start-btn" onclick="showPage('level-1')">開始冒險 (Enter)</button>
         </div>
 
@@ -213,10 +209,10 @@
             <div class="input-group">
                 <input type="text" id="input-1" placeholder="請輸入答案" autocomplete="off">
                 <div id="feedback-1" class="feedback"></div>
-                <button id="btn-verify-1" onclick="checkAnswer(1)">驗證</button>
+                <button id="btn-verify-1" onclick="checkAnswer(1)">驗證答案</button>
             </div>
             <div id="next-1" class="success-row" style="display:none;">
-                <p class="success-text" style="margin:0;">鎖已解開</p>
+                <p class="success-text">鎖已解開</p>
                 <button id="btn-next-1" onclick="showPage('level-2')">下一章 (Enter)</button>
             </div>
         </div>
@@ -228,10 +224,10 @@
             <div class="input-group">
                 <input type="text" id="input-2" placeholder="請輸入答案" autocomplete="off">
                 <div id="feedback-2" class="feedback"></div>
-                <button id="btn-verify-2" onclick="checkAnswer(2)">驗證</button>
+                <button id="btn-verify-2" onclick="checkAnswer(2)">驗證答案</button>
             </div>
             <div id="next-2" class="success-row" style="display:none;">
-                <p class="success-text" style="margin:0;">方向正確</p>
+                <p class="success-text">方向正確</p>
                 <button id="btn-next-2" onclick="showPage('level-3')">下一章 (Enter)</button>
             </div>
         </div>
@@ -240,17 +236,17 @@
         <div id="level-3" class="page">
             <h1>第參章</h1>
             <img src="morse-chart.png" alt="圖像線索" class="puzzle-image" onerror="handleImgError(this)">
-            <div style="margin-bottom: 4vh;">
+            <div style="margin-bottom: 2vh;">
                 <audio id="morse-audio" src="morse_code.wav"></audio>
-                <button onclick="toggleAudio()" style="background-color: #5d4037; font-size: clamp(1rem, 2.5vh, 1.8rem); padding: 1.5vh 5vw;">🔊 聆聽音訊</button>
+                <button onclick="toggleAudio()" style="background-color: #5d4037; font-size: 1rem; padding: 0.8vh 3vw;">🔊 聆聽音訊</button>
             </div>
             <div class="input-group">
                 <input type="text" id="input-3" placeholder="請輸入答案" autocomplete="off">
                 <div id="feedback-3" class="feedback"></div>
-                <button id="btn-verify-3" onclick="checkAnswer(3)">驗證</button>
+                <button id="btn-verify-3" onclick="checkAnswer(3)">驗證答案</button>
             </div>
             <div id="next-3" class="success-row" style="display:none;">
-                <p class="success-text" style="margin:0;">訊息完整</p>
+                <p class="success-text">訊息完整</p>
                 <button id="btn-next-3" onclick="showPage('level-4')">下一章 (Enter)</button>
             </div>
         </div>
@@ -268,28 +264,20 @@
 
         <!-- 成功結尾頁面 -->
         <div id="finish-page" class="page">
-            <h1 style="color: var(--success-color); font-size: clamp(5.5rem, 15vh, 12rem); margin-bottom: 8vh;">冒險完成</h1>
+            <h1 style="color: var(--success-color); font-size: clamp(5rem, 14vh, 11rem); margin-bottom: 5vh;">冒險完成</h1>
             <button onclick="location.reload()">重新啟程</button>
         </div>
 
     </div>
 
     <script>
-        // 標準答案設定
-        const ANSWERS = { 
-            1: "GLORY", 
-            2: "STOP", 
-            3: "PEACE", 
-            4: "AMDG" 
-        };
-
+        const ANSWERS = { 1: "GLORY", 2: "STOP", 3: "PEACE", 4: "AMDG" };
         let currentPage = 'start-page';
         let completedLevels = { 1: false, 2: false, 3: false, 4: false };
 
         function showPage(pageId) {
             currentPage = pageId;
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
 
             const homeBtn = document.getElementById('global-home-btn');
@@ -352,21 +340,10 @@
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") {
-                showPage('start-page');
-                return;
-            }
-
+            if (e.key === "Escape") { showPage('start-page'); return; }
             if (e.key === "Enter") {
-                if (currentPage === 'start-page') {
-                    showPage('level-1');
-                    return;
-                }
-                if (currentPage === 'finish-page') {
-                    location.reload();
-                    return;
-                }
-                
+                if (currentPage === 'start-page') { showPage('level-1'); return; }
+                if (currentPage === 'finish-page') { location.reload(); return; }
                 const levelMatch = currentPage.match(/level-(\d+)/);
                 if (levelMatch) {
                     const level = parseInt(levelMatch[1]);
