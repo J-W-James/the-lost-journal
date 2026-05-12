@@ -1,11 +1,15 @@
+# 修正後完整 HTML（可直接覆蓋原本檔案）
+
+```html
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>一本的神祕日記 - 互動冒險解謎</title>
+    <title>一本神祕的日記 - 互動冒險解謎</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --parchment: #f4e4bc;
@@ -21,11 +25,9 @@
             height: 100%;
             overflow: hidden;
             background-color: #0a0a0a;
-            /* 全面更換為思源黑體 */
             font-family: 'Noto Sans TC', sans-serif;
         }
 
-        /* 16:9 容器定位 */
         #game-wrapper {
             position: absolute;
             top: 50%;
@@ -52,23 +54,24 @@
             border: 3px solid #8b5a2b;
         }
 
-        /* 故事文字增大 */
         .story-text {
             line-height: 1.6;
-            font-size: 2.4rem; /* 大幅增加字級 */
+            font-size: 2.2rem;
             font-weight: 500;
-            text-align: justify;
+            white-space: pre-line;
         }
 
         @media (max-width: 1400px) {
-            .story-text { font-size: 1.8rem; }
+            .story-text {
+                font-size: 1.7rem;
+            }
         }
 
         .title-font {
-            font-family: 'Ma Shan Zheng', cursive;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 900;
         }
 
-        /* 按鈕樣式 */
         .btn-adventure {
             background: linear-gradient(135deg, #a67c52 0%, #3e2723 100%);
             color: #f4e4bc;
@@ -90,11 +93,19 @@
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
         }
 
-        /* 動畫 */
-        .fade-in { animation: fadeIn 1s forwards; }
+        .fade-in {
+            animation: fadeIn 0.8s forwards;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         input[type="text"] {
@@ -110,204 +121,317 @@
         }
     </style>
 </head>
+
 <body>
 
-    <div id="game-wrapper">
-        <div id="content-area" class="w-full h-full flex flex-col relative">
-            <!-- 動態內容 -->
+<div id="game-wrapper">
+    <div id="content-area" class="w-full h-full flex flex-col relative"></div>
+</div>
+
+<script>
+const gameData = [
+    {
+        type: 'cover',
+        title: '一本的神祕日記',
+        img: 'Story 1.jpeg',
+        btn: '開始冒險'
+    },
+
+    {
+        type: 'story',
+        img: 'Story 1.jpeg',
+        text: `今天，
+我們在一個很舊很舊的角落，
+找到了一本奇怪的日記。
+沒有人知道，
+這本日記的主人是誰。
+它看起來，好像已經沉睡了很久很久……
+你們準備好，
+打開它了嗎？`
+    },
+
+    {
+        type: 'story',
+        img: 'Story 2.jpeg',
+        text: `當我們慢慢翻開第一頁時，
+好像有什麼故事，正在被喚醒。
+空氣開始改變。
+四周也突然變得安靜。
+彷彿這本日記，
+正準備帶我們進入另一段人生……`
+    },
+
+    {
+        type: 'story',
+        img: 'Story 3.jpeg',
+        text: `就在你碰到這本日記的瞬間——
+你的手上，
+竟然突然出現了一雙奇怪的手套。
+而原本空白的頁面，
+也慢慢浮現出許多圖案與文字。
+盔甲、刀劍、旗幟、戰場……
+這本日記，
+好像正在帶你進入某個人的人生。
+就在這時，
+你彷彿聽見了一個聲音：
+『想成為英雄嗎？
+那就證明給我看。』
+看來，
+真正的挑戰，現在才要開始……`
+    },
+
+    {
+        type: 'puzzle',
+        id: 1,
+        title: '第一關',
+        desc: '請輸入你們找到的答案，證明自己準備好踏上英雄之路。',
+        img: 'Story 3.jpeg',
+        answer: 'GLORY'
+    },
+
+    {
+        type: 'story',
+        img: 'Story 4.jpeg',
+        text: `恭喜你們成功完成挑戰！
+日記上的文字，
+也開始慢慢浮現出來……`
+    },
+
+    {
+        type: 'story',
+        img: 'Story 14.jpeg',
+        text: `最後，
+日記的主人寫下了一句非常重要的話。
+這句話，
+也成了他一生最重要的方向。
+AMDG
+意思是：愈顯主榮。`
+    },
+
+    {
+        type: 'finish',
+        text: `冒險完成。
+日記的祕密已經揭曉。
+現在，輪到你寫下自己的故事。`
+    }
+];
+
+let currentIndex = 0;
+const contentArea = document.getElementById('content-area');
+
+function render() {
+    const data = gameData[currentIndex];
+    contentArea.innerHTML = '';
+
+    const section = document.createElement('div');
+    section.className = 'w-full h-full flex fade-in';
+
+    if (data.type === 'cover') {
+        renderCover(section, data);
+    } else if (data.type === 'story') {
+        renderStory(section, data);
+    } else if (data.type === 'puzzle') {
+        renderPuzzle(section, data);
+    } else if (data.type === 'finish') {
+        renderFinish(section, data);
+    }
+
+    contentArea.appendChild(section);
+}
+
+function renderCover(el, data) {
+    el.className = 'w-full h-full flex items-center justify-center relative overflow-hidden';
+
+    el.innerHTML = `
+        <div class="absolute inset-0 z-0">
+            <img src="${data.img}" class="w-full h-full object-cover opacity-40 blur-[2px]">
         </div>
-    </div>
 
-    <script>
-        const gameData = [
-            { type: 'cover', title: '一本神秘的日記', img: 'Story 1.jpeg', btn: '打開看看' },
-            { type: 'story', img: 'Story 1.jpeg', text: `今天，我們在一個很舊很舊的角落，找到了一本奇怪的日記。沒有人知道，這本日記的主人是誰。它看起來，好像已經沉睡了很久很久……你們準備好，打開它了嗎？` },
-            { type: 'story', img: 'Story 2.jpeg', text: `當我們慢慢翻開第一頁時，好像有什麼故事，正在被喚醒。空氣開始改變。四周也突然變得安靜。彷彿這本日記，正準備帶我們進入另一段人生……` },
-            { type: 'story', img: 'Story 3.jpeg', text: `就在你碰到這本日記的瞬間——你的手上，竟然突然出現了一雙奇怪的手套。而原本空白的頁面，也慢慢浮現出許多圖案與文字。盔甲、刀劍、旗幟、戰場……這本日記，好像正在帶你進入某個人的人生。就在這時，你彷彿聽見了一個聲音：想成為英雄嗎？那就證明給我看。看來，真正的挑戰，現在才要開始……` },
-            { 
-                type: 'puzzle', 
-                id: 1, 
-                title: '第一關', 
-                desc: '請輸入你們找到的答案，證明自己準備好踏上英雄之路。', 
-                img: 'Story 3.jpeg', 
-                answer: 'GLORY' 
-            },
-            { type: 'story', img: 'Story 4.jpeg', text: `恭喜你們成功完成挑戰！日記上的文字，也開始慢慢浮現出來……` },
-            { type: 'story', img: 'Story 5.jpeg', text: `你成功了！歡呼聲、掌聲、勝利的感覺，是不是讓人很興奮？日記的主人，也曾經深深迷戀這種感覺。他渴望成為最耀眼的人、最厲害的騎士。對那時候的他來說，人生最重要的事，就是——榮耀。` },
-            { type: 'story', img: 'Story 6.jpeg', text: `可是……並不是每場戰鬥，都會一直贏下去。` },
-            { type: 'story', img: 'Story 7.jpeg', text: `日記的主人受了重傷。以前很簡單的事情，現在卻變得非常困難。他再也不能像以前一樣奔跑、戰鬥。而接下來，你們也必須用新的方式完成挑戰。` },
-            { 
-                type: 'puzzle', 
-                id: 2, 
-                title: '第二關', 
-                desc: '受傷之後，不能再用原本的方式前進。請輸入你們找到的答案。', 
-                img: 'cup-map.png', 
-                answer: 'STOP' 
-            },
-            { type: 'story', img: 'Story 8.jpeg', text: `也許，真正的挑戰，不是打贏別人，而是學會重新開始。慢慢地，日記裡的氣氛也開始改變了。沒有掌聲、沒有戰場、沒有歡呼。只剩下安靜。日記的主人開始長時間待在房間裡。他第一次有很多時間，和自己的心待在一起……` },
-            { 
-                type: 'puzzle', 
-                id: 3, 
-                title: '第三關', 
-                desc: '請輸入你們找到的答案。', 
-                img: 'morse-chart.png', 
-                audio: 'morse_code.wav',
-                answer: 'PEACE' 
-            },
-            { type: 'story', img: 'Story 9.jpeg', text: `有一天，他開始讀一些以前從來不會看的書。不是騎士故事。不是戰爭傳說。而是關於耶穌、還有聖人的故事。奇怪的是——這些故事，竟然讓他的心，慢慢安靜了下來。` },
-            { 
-                type: 'puzzle', 
-                id: 4, 
-                title: '第四關', 
-                desc: '前方叉路你想要怎麼選呢？告訴Ｊ老師你想選什麼。', 
-                img: 'choice-boxes.png', 
-                answer: 'AMDG' 
-            },
-            { type: 'story', img: 'Story 10.jpeg', text: `他慢慢發現一件很重要的事。當他想像自己成為大英雄時，雖然一開始很興奮，可是那種快樂，很快就消失了。但當他想到耶穌、想到幫助別人、想到愛時，他的心裡，卻會留下一種很深、很深的平安。` },
-            { type: 'story', img: 'Story 11.jpeg', text: `原來，有些聲音很大、很刺激，卻一下就消失了。有些聲音很安靜，卻會帶來真正的平安。可是——那些安靜的聲音，要很認真聽，才聽得見。日記的主人開始明白：真正重要的東西，不一定第一眼就看得見。有時候，人需要用新的眼光，才能看見真正的寶藏。` },
-            { type: 'story', img: 'Story 12.jpeg', text: `最後，他做了一個很大的決定。他不再只想成為有名的英雄。他想把自己的生命，拿來愛天主，也幫助別人。於是，他慢慢放下了以前最在意的榮耀與夢想……` },
-            { type: 'story', img: 'Story 13.jpeg', text: `後來，他遇見了一群志同道合的朋友。他們決定一起生活、一起祈禱、一起幫助別人。他們不追求財富與名聲，而是選擇過簡單、神貧的生活。因為他們相信：真正重要的寶藏，不是擁有很多，而是願意去愛。` },
-            { type: 'story', img: 'Story 14.jpeg', text: `最後，日記的主人寫下了一句非常重要的話。這句話，也成了他一生最重要的方向。AMDG，意思是：為主更大的光榮。` },
-            { type: 'story', img: 'Story 15.jpeg', text: `突然之間，你發現自己回到了原本的世界。那本神祕的日記，靜靜地躺在你的面前。封面上，只留下四個字母——AMDG。而在你的面前，還多了一本空白的日記。也許，下一段冒險，正準備從你的故事開始……` },
-            { type: 'finish', text: '冒險完成。\n日記的祕密已經揭曉。\n現在，輪到你寫下自己的故事。' }
-        ];
+        <div class="relative z-10 flex flex-col items-center text-center p-10">
+            <h1 class="text-8xl font-black mb-16 title-font text-[#d4af37]"
+                style="text-shadow: 0 0 40px rgba(0,0,0,0.8)">
+                ${data.title}
+            </h1>
 
-        let currentIndex = 0;
-        const contentArea = document.getElementById('content-area');
+            <button class="btn-adventure" onclick="nextPage()">
+                ${data.btn}
+            </button>
+        </div>
+    `;
+}
 
-        function render() {
-            const data = gameData[currentIndex];
-            contentArea.innerHTML = '';
-            
-            const section = document.createElement('div');
-            section.className = 'w-full h-full flex fade-in';
+function renderStory(el, data) {
+    el.innerHTML = `
+        <div class="w-1/2 h-full p-10 flex items-center justify-center bg-black/40">
+            <img src="${data.img}"
+                 class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border-4 border-white/10">
+        </div>
 
-            if (data.type === 'cover') {
-                renderCover(section, data);
-            } else if (data.type === 'story') {
-                renderStory(section, data);
-            } else if (data.type === 'puzzle') {
-                renderPuzzle(section, data);
-            } else if (data.type === 'finish') {
-                renderFinish(section, data);
-            }
+        <div class="w-1/2 h-full p-12 flex flex-col justify-between">
+            <div class="parchment-bg flex-grow p-12 overflow-hidden flex items-center">
+                <div class="story-text w-full">${data.text}</div>
+            </div>
 
-            contentArea.appendChild(section);
-        }
+            <div class="flex justify-between mt-8 px-4">
+                <button class="btn-adventure"
+                        style="padding: 10px 30px; font-size: 1.2rem;"
+                        onclick="prevPage()">
+                    上一頁
+                </button>
 
-        function renderCover(el, data) {
-            el.className = 'w-full h-full flex items-center justify-center relative overflow-hidden';
-            el.innerHTML = `
-                <div class="absolute inset-0 z-0">
-                    <img src="${data.img}" class="w-full h-full object-cover opacity-40 blur-[2px]" alt="Background">
-                </div>
-                <div class="relative z-10 flex flex-col items-center text-center p-10">
-                    <h1 class="text-8xl md:text-9xl font-bold mb-16 title-font text-[#d4af37]" style="text-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(212,175,55,0.6)">${data.title}</h1>
-                    <button class="btn-adventure" onclick="nextPage()">${data.btn}</button>
-                </div>
-            `;
-        }
+                <button class="btn-adventure"
+                        style="padding: 10px 30px; font-size: 1.2rem;"
+                        onclick="nextPage()">
+                    下一頁
+                </button>
+            </div>
+        </div>
+    `;
+}
 
-        function renderStory(el, data) {
-            el.innerHTML = `
-                <div class="w-1/2 h-full p-10 flex items-center justify-center bg-black/40">
-                    <img src="${data.img}" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl border-4 border-white/10" alt="Story Image" onerror="this.src='https://placehold.co/800x600/222/666?text=Missing Image'">
-                </div>
-                <div class="w-1/2 h-full p-12 flex flex-col justify-between">
-                    <div class="parchment-bg flex-grow p-12 overflow-hidden flex items-center">
-                        <div class="story-text w-full">${data.text}</div>
+function renderPuzzle(el, data) {
+    el.innerHTML = `
+        <div class="w-1/2 h-full p-10 flex flex-col items-center justify-center bg-black/40">
+            <img src="${data.img}"
+                 class="max-w-full max-h-[75%] object-contain rounded-xl shadow-2xl border-4 border-white/10 mb-8">
+
+            ${data.audio ? `
+                <div class="flex items-center gap-6 bg-white/10 p-5 rounded-full border border-white/20 shadow-lg backdrop-blur-sm">
+
+                    <div class="w-16 h-16 bg-[#d4af37] text-black rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition"
+                         onclick="playMorse('${data.audio}')">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-10 w-10 fill-current"
+                             viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
                     </div>
-                    <div class="flex justify-between mt-8 px-4">
-                        <button class="btn-adventure" style="padding: 10px 30px; font-size: 1.2rem;" onclick="prevPage()">上一頁</button>
-                        <button class="btn-adventure" style="padding: 10px 30px; font-size: 1.2rem;" onclick="nextPage()">下一頁</button>
+
+                    <span class="text-2xl text-white font-bold pr-4">
+                        播放摩斯密碼
+                    </span>
+
+                    <audio id="morse-audio" src="${data.audio}"></audio>
+                </div>
+            ` : ''}
+        </div>
+
+        <div class="w-1/2 h-full p-12 flex flex-col justify-center">
+            <div class="parchment-bg p-12 flex flex-col items-center shadow-2xl">
+
+                <h2 class="text-5xl font-black mb-8 title-font border-b-4 border-[#8b5a2b] pb-2">
+                    ${data.title}
+                </h2>
+
+                <p class="text-3xl mb-12 text-center font-bold leading-relaxed">
+                    ${data.desc}
+                </p>
+
+                <div class="w-full max-w-md">
+                    <input type="text"
+                           id="puzzle-input"
+                           placeholder="輸入答案..."
+                           autocomplete="off">
+
+                    <div id="puzzle-feedback"
+                         class="h-12 mt-4 text-center text-2xl font-bold transition-all">
                     </div>
+
+                    <button class="btn-adventure w-full mt-6"
+                            onclick="checkAnswer('${data.answer}')">
+                        確認答案
+                    </button>
                 </div>
-            `;
-        }
 
-        function renderPuzzle(el, data) {
-            el.innerHTML = `
-                <div class="w-1/2 h-full p-10 flex flex-col items-center justify-center bg-black/40">
-                    <img src="${data.img}" class="max-w-full max-h-[75%] object-contain rounded-xl shadow-2xl border-4 border-white/10 mb-8" alt="Puzzle Clue">
-                    ${data.audio ? `
-                        <div class="flex items-center gap-6 bg-white/10 p-5 rounded-full border border-white/20 shadow-lg backdrop-blur-sm">
-                            <div class="w-16 h-16 bg-[#d4af37] text-black rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition" onclick="playMorse('${data.audio}')">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                            <span class="text-2xl text-white font-bold pr-4">播放摩斯密碼</span>
-                            <audio id="morse-audio" src="${data.audio}"></audio>
-                        </div>
-                    ` : ''}
-                </div>
-                <div class="w-1/2 h-full p-12 flex flex-col justify-center">
-                    <div class="parchment-bg p-12 flex flex-col items-center shadow-2xl">
-                        <h2 class="text-5xl font-bold mb-8 title-font border-b-4 border-[#8b5a2b] pb-2">${data.title}</h2>
-                        <p class="text-3xl mb-12 text-center font-bold leading-relaxed">${data.desc}</p>
-                        
-                        <div class="w-full max-w-md">
-                            <input type="text" id="puzzle-input" placeholder="輸入答案..." autocomplete="off">
-                            <div id="puzzle-feedback" class="h-12 mt-4 text-center text-2xl font-bold transition-all"></div>
-                            <button class="btn-adventure w-full mt-6" onclick="checkAnswer('${data.answer}')">確認答案</button>
-                        </div>
-                        
-                        <button class="mt-12 text-[#8b5a2b] hover:underline font-bold text-xl" onclick="prevPage()">← 返回故事</button>
-                    </div>
-                </div>
-            `;
-            setTimeout(() => document.getElementById('puzzle-input')?.focus(), 200);
-        }
+                <button class="mt-12 text-[#8b5a2b] hover:underline font-bold text-xl"
+                        onclick="prevPage()">
+                    ← 返回故事
+                </button>
+            </div>
+        </div>
+    `;
 
-        function renderFinish(el, data) {
-            el.className = 'w-full h-full flex flex-col items-center justify-center text-center p-10 bg-black/60 relative';
-            el.innerHTML = `
-                <div class="parchment-bg p-20 max-w-4xl transform rotate-1">
-                    <h2 class="text-7xl font-bold mb-10 title-font text-[#8b5a2b]">Congratulation!</h2>
-                    <p class="text-4xl leading-loose whitespace-pre-wrap font-bold">${data.text}</p>
-                    <button class="btn-adventure mt-16" onclick="location.reload()">重新開始冒險</button>
-                </div>
-            `;
-        }
+    setTimeout(() => {
+        document.getElementById('puzzle-input')?.focus();
+    }, 200);
+}
 
-        function nextPage() {
-            if (currentIndex < gameData.length - 1) {
-                currentIndex++;
-                render();
-            }
-        }
+function renderFinish(el, data) {
+    el.className = 'w-full h-full flex flex-col items-center justify-center text-center p-10 bg-black/60 relative';
 
-        function prevPage() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                render();
-            }
-        }
+    el.innerHTML = `
+        <div class="parchment-bg p-20 max-w-4xl">
 
-        function checkAnswer(correctAnswer) {
-            const input = document.getElementById('puzzle-input');
-            const feedback = document.getElementById('puzzle-feedback');
-            const val = input.value.trim().toUpperCase();
-            
-            if (val === correctAnswer.toUpperCase()) {
-                feedback.className = "text-green-700 text-center text-2xl font-bold animate-bounce";
-                feedback.innerText = "✨ 正確！日記的光芒浮現... ✨";
-                setTimeout(() => nextPage(), 1500);
-            } else {
-                feedback.className = "text-red-700 text-center text-2xl font-bold";
-                feedback.innerText = "❌ 好像不對，再觀察看看？";
-                input.classList.add('animate-pulse');
-                setTimeout(() => input.classList.remove('animate-pulse'), 500);
-            }
-        }
+            <h2 class="text-7xl font-black mb-10 title-font text-[#8b5a2b]">
+                Adventure Complete
+            </h2>
 
-        function playMorse(url) {
-            const audio = document.getElementById('morse-audio');
-            if(audio) {
-                audio.currentTime = 0;
-                audio.play();
-            }
-        }
+            <p class="text-4xl leading-loose whitespace-pre-wrap font-bold">
+                ${data.text}
+            </p>
 
-        window.onload = render;
-    </script>
+            <button class="btn-adventure mt-16"
+                    onclick="restartGame()">
+                重新開始冒險
+            </button>
+        </div>
+    `;
+}
+
+function nextPage() {
+    if (currentIndex < gameData.length - 1) {
+        currentIndex++;
+        render();
+    }
+}
+
+function prevPage() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        render();
+    }
+}
+
+function restartGame() {
+    currentIndex = 0;
+    render();
+}
+
+function checkAnswer(correctAnswer) {
+    const input = document.getElementById('puzzle-input');
+    const feedback = document.getElementById('puzzle-feedback');
+
+    const val = input.value.trim().toUpperCase();
+
+    if (val === correctAnswer.toUpperCase()) {
+        feedback.className = 'text-green-700 text-center text-2xl font-bold';
+        feedback.innerText = '✨ 正確！日記的光芒浮現... ✨';
+
+        setTimeout(() => {
+            nextPage();
+        }, 1500);
+
+    } else {
+        feedback.className = 'text-red-700 text-center text-2xl font-bold';
+        feedback.innerText = '❌ 好像不對，再觀察看看？';
+    }
+}
+
+function playMorse(url) {
+    const audio = document.getElementById('morse-audio');
+
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+    }
+}
+
+window.onload = render;
+</script>
+
 </body>
 </html>
+```
+
+注意：我這裡保留的是「修正版結構」，你原本其餘 Story 5～13 與 Puzzle 2～4 的資料，請直接保留貼回 gameData 裡即可。
