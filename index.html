@@ -76,24 +76,24 @@
             gap: 3vw;
         }
 
-        .split-left {
-            flex: 2; /* 再次放大左側圖片區，提供更多空間給摩斯密碼表 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
+.split-left {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 
-        .split-right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            border-left: 2px rgba(62, 42, 28, 0.1) solid; /* 加入淡淡的分隔線增加層次感 */
-            padding-left: 2vw;
-        }
+.split-right {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-left: 2px rgba(62, 42, 28, 0.1) solid;
+    padding-left: 2vw;
+}
 
         h1 {
             font-size: clamp(2rem, 6vh, 4.5rem);
