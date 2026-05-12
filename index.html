@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神祕日記：解謎冒險 - 16:9 佈局修正版</title>
+    <title>神祕日記：解謎冒險 - 投影優化版</title>
     <!-- 引入 Google Fonts: 思源宋體 (Noto Serif TC) -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,7 @@
             --border-color: #3d2b1f;
         }
 
-        /* 全域重設，禁止捲動 */
+        /* 全域重設 */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -35,7 +35,7 @@
             align-items: center;
         }
 
-        /* 16:9 主容器佈局 */
+        /* 16:9 主容器 */
         .game-frame {
             width: min(95vw, calc(95vh * 16 / 9));
             aspect-ratio: 16 / 9;
@@ -50,7 +50,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            padding: 2vh 4vw;
+            padding: 2vh 3vw;
         }
 
         .page {
@@ -66,19 +66,44 @@
 
         .active { display: flex; }
 
+        /* 左右分欄佈局 (用於第三關) */
+        .split-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4vw;
+        }
+
+        .split-left {
+            flex: 1.2; /* 讓圖片區域稍大一點 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .split-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         h1 {
-            font-size: clamp(2rem, 6vh, 5rem);
+            font-size: clamp(2rem, 6vh, 4.5rem);
             font-weight: 900;
             color: var(--text-color);
-            margin-bottom: 2vh; /* 縮減標題下方間距 */
+            margin-bottom: 2vh;
             letter-spacing: 0.2em;
             text-shadow: 1px 1px 1px rgba(255,255,255,0.5), -1px -1px 1px rgba(0,0,0,0.2);
         }
 
-        /* 圖片尺寸修正：嚴格限制高度以防擠壓按鈕 */
+        /* 圖片尺寸修正 */
         .puzzle-image {
-            max-width: 80%;
-            max-height: 42vh; /* 從 50vh 調降，確保下方空間充足 */
+            max-width: 90%;
+            max-height: 45vh;
             object-fit: contain;
             margin-bottom: 2vh;
             border: 4px solid var(--text-color);
@@ -86,9 +111,10 @@
             border-radius: 4px;
         }
 
-        /* 第三關有額外音訊按鈕，圖片高度需更小 */
-        #level-3 .puzzle-image {
-            max-height: 35vh; 
+        /* 第三關在分欄模式下可以更高 */
+        .split-left .puzzle-image {
+            max-height: 65vh; 
+            max-width: 100%;
         }
 
         .input-group {
@@ -102,10 +128,10 @@
         input[type="text"] {
             font-family: 'Noto Serif TC', serif;
             font-weight: 700;
-            font-size: clamp(1.2rem, 3.5vh, 2.5rem);
-            padding: 1vh 2vw;
-            width: 45%;
-            min-width: 320px;
+            font-size: clamp(1.2rem, 3vh, 2.2rem);
+            padding: 1.2vh 2vw;
+            width: 100%;
+            max-width: 350px;
             border: 2px solid var(--accent-color);
             border-radius: 8px;
             background: rgba(255,255,255,0.7);
@@ -118,7 +144,7 @@
         button {
             font-family: 'Noto Serif TC', serif;
             font-weight: 700;
-            font-size: clamp(1rem, 2.2vh, 1.8rem);
+            font-size: clamp(1rem, 2vh, 1.8rem);
             padding: 1vh 3.5vw;
             cursor: pointer;
             background-color: var(--accent-color);
@@ -149,7 +175,7 @@
         }
 
         .feedback {
-            font-size: clamp(0.9rem, 2.2vh, 1.6rem);
+            font-size: clamp(0.9rem, 2vh, 1.5rem);
             height: 3vh;
             margin: 0.5vh 0;
             font-weight: 700;
@@ -168,7 +194,7 @@
         .success-text {
             color: var(--success-color);
             font-weight: 900;
-            font-size: clamp(1.2rem, 2.8vh, 2.2rem);
+            font-size: clamp(1.2rem, 2.5vh, 2.2rem);
         }
 
         .img-fallback {
@@ -176,7 +202,11 @@
             color: #777;
             border: 2px dashed var(--text-color);
             padding: 20px;
-            margin-bottom: 20px;
+            width: 100%;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.2rem;
         }
 
@@ -232,22 +262,28 @@
             </div>
         </div>
 
-        <!-- 第參章 -->
+        <!-- 第參章 (優化為左右佈局) -->
         <div id="level-3" class="page">
-            <h1>第參章</h1>
-            <img src="morse-chart.png" alt="圖像線索" class="puzzle-image" onerror="handleImgError(this)">
-            <div style="margin-bottom: 2vh;">
-                <audio id="morse-audio" src="morse_code.wav"></audio>
-                <button onclick="toggleAudio()" style="background-color: #5d4037; font-size: 1rem; padding: 0.8vh 3vw;">🔊 聆聽音訊</button>
-            </div>
-            <div class="input-group">
-                <input type="text" id="input-3" placeholder="請輸入答案" autocomplete="off">
-                <div id="feedback-3" class="feedback"></div>
-                <button id="btn-verify-3" onclick="checkAnswer(3)">驗證答案</button>
-            </div>
-            <div id="next-3" class="success-row" style="display:none;">
-                <p class="success-text">訊息完整</p>
-                <button id="btn-next-3" onclick="showPage('level-4')">下一章 (Enter)</button>
+            <div class="split-layout">
+                <div class="split-left">
+                    <img src="morse-chart.png" alt="摩斯密碼表" class="puzzle-image" onerror="handleImgError(this)">
+                </div>
+                <div class="split-right">
+                    <h1>第參章</h1>
+                    <div style="margin-bottom: 3vh;">
+                        <audio id="morse-audio" src="morse_code.wav"></audio>
+                        <button onclick="toggleAudio()" style="background-color: #5d4037; font-size: 1.1rem; padding: 1.5vh 4vw;">🔊 聆聽音訊</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="input-3" placeholder="請輸入密碼答案" autocomplete="off">
+                        <div id="feedback-3" class="feedback"></div>
+                        <button id="btn-verify-3" onclick="checkAnswer(3)">驗證答案</button>
+                        <div id="next-3" class="success-row" style="display:none;">
+                            <p class="success-text">訊息完整</p>
+                            <button id="btn-next-3" onclick="showPage('level-4')">下一章 (Enter)</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -312,7 +348,7 @@
                     if (nextArea) nextArea.style.display = "flex";
                 }
             } else {
-                feedback.innerHTML = "線索就在眼前。";
+                feedback.innerHTML = "再看看線索。";
                 feedback.className = "feedback error";
                 input.style.animation = "shake 0.4s";
                 setTimeout(() => input.style.animation = "", 400);
@@ -322,7 +358,7 @@
         function handleImgError(img) {
             const fallback = document.createElement('div');
             fallback.className = "img-fallback";
-            fallback.innerText = "[ 線索圖像缺失: " + img.src.split('/').pop() + " ]";
+            fallback.innerText = "[ 圖檔缺失: " + img.src.split('/').pop() + " ]";
             img.parentNode.replaceChild(fallback, img);
         }
 
