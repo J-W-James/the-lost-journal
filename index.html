@@ -214,10 +214,10 @@
 
         function renderStory(el, data) {
             el.innerHTML = `
-                <div class="w-1/2 h-full p-4 flex items-center justify-center bg-black/40">
+                <div class="w-[60%] h-full p-4 flex items-center justify-center bg-black/40">
                     <img src="${data.img}" class="w-full h-full object-contain rounded-xl shadow-2xl border-4 border-white/10" alt="Story Image" onerror="this.src='https://placehold.co/800x600/222/666?text=Missing Image'">
                 </div>
-                <div class="w-1/2 h-full p-12 flex flex-col justify-between">
+                <div class="w-[40%] h-full p-10 flex flex-col justify-between">
                     <div class="parchment-bg flex-grow p-12 overflow-hidden flex items-center">
                         <div class="story-text w-full">${data.text}</div>
                     </div>
@@ -231,7 +231,7 @@
 
         function renderPuzzle(el, data) {
             el.innerHTML = `
-                <div class="w-1/2 h-full p-4 flex flex-col items-center justify-center bg-black/40">
+                <div class="w-[60%] h-full p-4 flex flex-col items-center justify-center bg-black/40">
                         <img src="${data.img}" class="max-w-full max-h-[85%] object-contain rounded-xl shadow-2xl border-4 border-white/10 mb-6" alt="Puzzle Clue">
                     ${data.audio ? `
                         <div class="flex items-center gap-6 bg-white/10 p-5 rounded-full border border-white/20 shadow-lg backdrop-blur-sm">
@@ -243,7 +243,7 @@
                         </div>
                     ` : ''}
                 </div>
-                <div class="w-1/2 h-full p-12 flex flex-col justify-center">
+                <div class="w-[40%] h-full p-10 flex flex-col justify-center">
                     <div class="parchment-bg p-12 flex flex-col items-center shadow-2xl">
                         <h2 class="text-5xl font-bold mb-8 title-font border-b-4 border-[#8b5a2b] pb-2">${data.title}</h2>
                         <p class="text-3xl mb-12 text-center font-bold leading-relaxed">${data.desc}</p>
